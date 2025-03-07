@@ -1,0 +1,24 @@
+<h2>📜 我的訂單</h2>
+
+<div *ngIf="orders.length === 0">
+  <p>沒有歷史訂單。</p>
+</div>
+
+<table *ngIf="orders.length > 0" class="ui celled table">
+  <thead>
+    <tr>
+      <th>訂單編號</th>
+      <th>日期</th>
+      <th>總金額</th>
+      <th>付款狀態</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let order of orders">
+      <td>{{ order.id }}</td>
+<td>{{ order.date | date:'yyyy/MM/dd HH:mm' }}</td>
+      <td>{{ order.total }} HKD</td>
+      <td>{{ order.status }}</td>
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,36 @@
+<div class="ui container">
+  <div class="ui grid">
+    <div class="six wide column">
+      <div class="ui segment">
+        <img *ngIf="product" class="ui centered image" [src]="product.image_url" alt="{{ product.name }}">
+      </div>
+    </div>
+
+    <div class="ten wide column">
+      <h2 class="ui header" *ngIf="product">{{ product.name }}</h2>
+      <div class="ui divider"></div>
+
+      <p *ngIf="product"><strong>類別：</strong> {{ product.category }}</p>
+      <p *ngIf="product"><strong>價格：</strong> <span class="ui big red text">{{ product.price }} HKD</span></p>
+      <p *ngIf="product"><strong>描述：</strong> {{ product.description }}</p>
+      <p *ngIf="product"><strong>庫存數量：</strong> {{ product.stock_quantity }}</p>
+
+      <div class="ui action input" *ngIf="product">
+        <input type="number" min="1" [max]="product.stock_quantity" [(ngModel)]="quantity" class="ui input" style="width: 80px;">
+        <button class="ui primary button" (click)="addToCart()">加入購物車</button>
+      </div>
+
+      <div *ngIf="cartMessage" class="ui positive message">
+        <p>{{ cartMessage }}</p>
+      </div>
+
+      <div class="ui divider"></div>
+      <a routerLink="/" class="ui button">⬅ 返回產品列表</a>
+    </div>
+  </div>
+</div>
+
+<!-- 🔄 如果 `product` 尚未載入，顯示「載入中」 -->
+<div *ngIf="!product">
+  <p>⏳ 產品資料載入中...</p>
+</div>

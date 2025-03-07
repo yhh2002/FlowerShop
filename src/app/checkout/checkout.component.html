@@ -1,0 +1,50 @@
+<h2>🛒 結帳</h2>
+
+<!-- 📌 收件人資訊 -->
+<form class="ui form">
+  <div class="field">
+    <label>姓名</label>
+    <input type="text" placeholder="請輸入姓名" [(ngModel)]="customer.name" name="name" required>
+  </div>
+  <div class="field">
+    <label>聯絡電話</label>
+    <input type="text" placeholder="請輸入電話" [(ngModel)]="customer.phone" name="phone" required>
+  </div>
+  <div class="field">
+    <label>送貨地址</label>
+    <input type="text" placeholder="請輸入送貨地址" [(ngModel)]="customer.address" name="address" required>
+  </div>
+</form>
+
+<div class="ui divider"></div>
+
+<!-- 🛍️ 訂單資訊 -->
+<h3>訂單摘要</h3>
+<table class="ui celled table">
+  <thead>
+    <tr>
+      <th>產品</th>
+      <th>數量</th>
+      <th>單價</th>
+      <th>小計</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of cartItems">
+      <td>{{ item.name }}</td>
+      <td>{{ item.quantity }}</td>
+      <td>{{ item.price }} HKD</td>
+      <td>{{ item.quantity * item.price }} HKD</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>總金額：{{ totalPrice }} HKD</h3>
+
+<!-- 🔵 PayPal 按鈕 -->
+<div id="paypal-button-container"></div>
+
+<!-- ✅ 付款成功訊息 -->
+<div *ngIf="orderSuccess" class="ui positive message">
+  <p>🎉 訂單已成功提交！感謝您的購買！</p>
+</div>
