@@ -1,7 +1,7 @@
 .centered-modal {
   position: fixed;
   top: 50%;
-  left: 75%;
+  left: 55%;
   transform: translate(-50%, -50%);
   width: 40%; /* ✅ 控制視窗寬度 (可調整為 35% 或 50%) */
   max-width: 450px; /* ✅ 限制最大寬度 */

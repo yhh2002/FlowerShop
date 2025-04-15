@@ -27,6 +27,9 @@ export class AdminComponent {
 // ✅ 確保這些類別不會變動
 categories: string[] = ['玫瑰花束', '畢業花束', '母親節花束', '情人節花束', '開張花籃', '聖誕節🎄', '新年花卉'];
 
+selectedCategoryFilter: string = '';
+selectedDeliveryFilter: string = '';
+
 
   constructor(private orderService: OrderService,private productService: ProductService,private dialog: MatDialog) {}
 
@@ -194,6 +197,22 @@ categories: string[] = ['玫瑰花束', '畢業花束', '母親節花束', '情�
   
     return categoryMap[category || ''] || ''; // ✅ 確保 category 不會是 null 或 undefined
   }
+
+
+get filteredProducts() {
+  if (!this.selectedCategoryFilter) {
+    return this.products;
+  }
+  return this.products.filter(p => p.category === this.selectedCategoryFilter);
+}
+
+get filteredOrders() {
+  if (!this.selectedDeliveryFilter) {
+    return this.orders;
+  }
+  return this.orders.filter(order => order.delivery_method === this.selectedDeliveryFilter);
+}
+
 }
 
 

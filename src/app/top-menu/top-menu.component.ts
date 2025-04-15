@@ -34,6 +34,10 @@ export class TopMenuComponent {
     this.router.navigate(['/cart']);
   }
 
+  goToAdmin(){
+    this.router.navigate(['/admin']);
+  }
+
   goToAllproduct() {
     this.router.navigate(['/']);
   }

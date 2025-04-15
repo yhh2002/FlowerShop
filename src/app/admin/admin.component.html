@@ -50,6 +50,17 @@
   </div>
 </div>
 
+<!-- 📂 類別篩選器 -->
+<div class="ui form" style="margin-bottom: 10px;">
+  <div class="inline fields">
+    <label>📂 篩選類別：</label>
+    <select class="ui dropdown" [(ngModel)]="selectedCategoryFilter">
+      <option value="">全部類別</option>
+      <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+    </select>
+    <button class="ui button" (click)="selectedCategoryFilter=''">🔄 清除篩選</button>
+  </div>
+</div>
 
 <!-- ✅ 產品列表 -->
 <table class="ui celled table">
@@ -65,7 +76,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let product of products">
+    <tr *ngFor="let product of filteredProducts">
       <td>{{ product.name }}</td>
       <td>{{ product.category }}</td>
       <td>{{ product.price }} HKD</td>
@@ -90,6 +101,20 @@
   <!-- 📜 訂單管理 -->
   <div *ngIf="selectedSection === 'orders'">
     <h3>📜 訂單管理</h3>
+
+      <!-- 🔽 送貨方式篩選器 -->
+  <div class="ui form" style="margin-bottom: 10px;">
+    <div class="inline fields">
+      <label>🚚 送貨方式篩選：</label>
+      <select class="ui dropdown" [(ngModel)]="selectedDeliveryFilter">
+        <option value="">全部</option>
+        <option value="標準送貨">標準送貨</option>
+        <option value="到店自取">到店自取</option>
+      </select>
+      <button class="ui button" (click)="selectedDeliveryFilter = ''">🔄 清除篩選</button>
+    </div>
+  </div>
+
     <table class="ui celled table">
       <thead>
         <tr>
@@ -101,10 +126,13 @@
           <th>總金額</th>
           <th>狀態</th>
           <th>時間</th>
+          <th>送貨方式</th>
+          <th>送貨地址</th>
+          <th>送貨日期</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let order of orders">
+        <tr *ngFor="let order of filteredOrders">
           <td>{{ order.order_id }}</td>
           <td>{{ order.customer }}</td>
           <td>{{ order.product_name }}</td>
@@ -113,6 +141,9 @@
           <td>{{ order.total_amount }} HKD</td>
           <td>{{ order.status }}</td>
           <td>{{ order.created_at }}</td>
+          <td>{{ order.delivery_method }}</td>
+          <td>{{ order.delivery_address }}</td>
+          <td>{{ order.delivery_date }}</td>
         </tr>
       </tbody>
     </table>
