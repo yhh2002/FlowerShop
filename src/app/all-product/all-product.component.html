@@ -26,9 +26,10 @@
 <!-- 🔍 搜尋結果 -->
 <p *ngIf="filteredProducts.length === 0">😢 沒有找到符合的產品！</p>
 
-<div class="ui stackable three column grid">
+<!-- 🔍 產品卡片展示，每行顯示四個 -->
+<div class="ui stackable four column grid">
   <div class="column" *ngFor="let product of filteredProducts">
-    <div class="ui card">
+    <div class="ui fluid card">
       <div class="image">
         <img [src]="product.image_url" alt="{{ product.name }}">
       </div>
@@ -37,7 +38,6 @@
         <div class="meta">
           <span class="category">{{ product.category }}</span>
         </div>
-       
       </div>
       <div class="extra content">
         <span class="ui large red label">${{ product.price }}</span>
@@ -48,5 +48,6 @@
     </div>
   </div>
 </div>
+
 
 <router-outlet></router-outlet>

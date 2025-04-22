@@ -124,11 +124,12 @@
           <th>數量</th>
           <th>單價</th>
           <th>總金額</th>
-          <th>狀態</th>
+          <th>付款狀態</th>
           <th>時間</th>
           <th>送貨方式</th>
           <th>送貨地址</th>
           <th>送貨日期</th>
+          <th>送貨時間</th>
         </tr>
       </thead>
       <tbody>
@@ -142,8 +143,10 @@
           <td>{{ order.status }}</td>
           <td>{{ order.created_at }}</td>
           <td>{{ order.delivery_method }}</td>
-          <td>{{ order.delivery_address }}</td>
+          <td>{{ order.delivery_district }}/{{ order.delivery_address }}</td>
           <td>{{ order.delivery_date }}</td>
+          <td>{{ order.delivery_time }}</td>
+
         </tr>
       </tbody>
     </table>

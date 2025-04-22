@@ -15,9 +15,27 @@ import { AuthService } from '../auth.service';
 })
 export class ProductDetailComponent {
   product: any = null;
+  selectedSize: string = 'M';
+  selectedStems: number = 6;
+  availableOptions: any[] = [];
   quantity: number = 1;
   cartMessage: string = '';
-
+  
+  stemOptions: { [key: string]: { stems: number; price: number; }[] } = {
+    M: [
+      { stems: 6, price: 688 },
+      { stems: 10, price: 888 },
+      { stems: 15, price: 1288 }
+    ],
+    L: [
+      { stems: 6, price: 888 },
+      { stems: 10, price: 1088 },
+      { stems: 15, price: 1688 },
+      { stems: 18, price: 1888 }
+    ]
+  };
+  
+  
   constructor(private route: ActivatedRoute, private productService: ProductService) {}
 
   ngOnInit() {
@@ -38,30 +56,44 @@ export class ProductDetailComponent {
         }
       );
     }
+    this.onSizeChange(); // 預設載入 M Size
+
+  }
+
+  onSizeChange() {
+    this.availableOptions = this.stemOptions[this.selectedSize];
+    this.selectedStems = this.availableOptions[0].stems;
+  }
+  
+  onStemChange() {
+    // 可加邏輯，如有需要變更價格等
   }
 
   addToCart() {
-    if (this.quantity < 1) {
-      this.cartMessage = "請選擇至少 1 件商品！";
-      return;
-    }
+    const selectedOption = this.availableOptions.find(opt => opt.stems == this.selectedStems);
+  const finalPrice = selectedOption ? selectedOption.price : 0;
 
-    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    let existingItem = cart.find((item: any) => item.id === this.product.id);
+  const cartItem = {
+    id: this.product.id,
+    name: `${this.product.name} - ${this.selectedSize} - ${this.selectedStems}枝`,
+    price: finalPrice,
+    quantity: this.quantity,
+    image: this.product.image_url,
+    size: this.selectedSize,
+  stems: this.selectedStems
+  };
 
-    if (existingItem) {
-      existingItem.quantity += this.quantity;
-    } else {
-      cart.push({
-        id: this.product.id,
-        name: this.product.name,
-        price: this.product.price,
-        quantity: this.quantity,
-        image_url: this.product.image_url,
-      });
-    }
+  let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  cart.push(cartItem);
+  localStorage.setItem('cart', JSON.stringify(cart));
 
-    localStorage.setItem('cart', JSON.stringify(cart));
-    this.cartMessage = "✅ 產品已成功加入購物車！";
+  this.cartMessage = '✅ 已加入購物車';
   }
+
+  showPopup: boolean = true;
+
+closePopup() {
+  this.showPopup = false;
+}
+
 }

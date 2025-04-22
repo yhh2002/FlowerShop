@@ -14,6 +14,8 @@ import { HttpClient } from '@angular/common/http';
 export class OrdersComponent {
   orders: any[] = [];
   user_id: number | null = null;
+  activeIndex: number | null = null;
+
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -38,5 +40,9 @@ export class OrdersComponent {
       }, error => {
         console.error('❌ API 錯誤', error);
       });
+  }
+
+  toggleAccordion(index: number): void {
+    this.activeIndex = this.activeIndex === index ? null : index;
   }
 }

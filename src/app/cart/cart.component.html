@@ -17,7 +17,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let item of cartItems; let i = index">
-      <td><img [src]=" item.image_url" width="80"></td>
+      <td><img [src]="item.image" width="80" style="object-fit: cover;"></td>
       <td>{{ item.name }}</td>
       <td>{{ item.quantity }}</td>
       <td>{{ item.price }} HKD</td>

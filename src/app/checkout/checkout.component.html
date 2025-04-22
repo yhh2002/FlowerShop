@@ -22,7 +22,7 @@
 <!-- 🚚 送貨地區 -->
 <div class="field" *ngIf="customer.deliveryMethod === '標準送貨'">
 <label>選擇送貨地區：</label>
-<select [(ngModel)]="deliveryDistrict" name="deliveryDistrict" (change)="updateDeliveryFee()">
+<select [(ngModel)]="customer.deliveryDistrict" name="deliveryDistrict" (change)="updateDeliveryFee()">
   <optgroup label="香港島（總運費：$250）">
     <option>中西區</option>
     <option>灣仔區</option>
@@ -59,8 +59,25 @@
 <!-- 📍 若選擇標準送貨，顯示地址輸入欄 -->
 <div class="field" *ngIf="customer.deliveryMethod === '標準送貨'">
   <label>送貨地址</label>
-  <input type="text" placeholder="請輸入送貨地址" [(ngModel)]="customer.address" name="address" required>
+  <input 
+    type="text" 
+    placeholder="請輸入送貨地址" 
+    [(ngModel)]="customer.address" 
+    name="address" 
+    required
+  >
+
+  <!-- ✅ 備註提示 -->
+  <div class="ui yellow message" style="margin-top: 10px;">
+    <i class="info circle icon"></i>
+    <div class="content">
+      <p><strong>敬請盡量輸入詳細地址，部份地址或有停車場收費。</strong></p>
+      <p>確認訂單後，如有特別運費或停車場額外收費，將個別通知客人有關情況並保留收取該費用的權利，且並不能作退款，謝謝。</p>
+    </div>
+  </div>
 </div>
+
+
 
 
 <!-- 🗓️ 選擇送貨日期 -->
@@ -70,15 +87,15 @@
 </div>
 
 <label>送貨時間：</label>
-<select [(ngModel)]="deliveryTime"name="deliveryTime"(change)="updateTimeSurcharge()" *ngIf="customer.deliveryMethod === '標準送貨'">
-  <option value="9-13">上午9點至1點</option>
-  <option value="13-20">下午1點至8點</option>
-  <option value="6-7">上午6點至7點（加 $50）</option>
-  <option value="7-8">上午7點至8點（加 $50）</option>
-  <option value="20-21">晚上8點至9點（加 $100）</option>
-  <option value="21-22">晚上9點至10點（加 $100）</option>
-  <option value="22-23">晚上10點至11點（加 $100）</option>
-  <option value="23-24">晚上11點至12點（加 $100）</option>
+<select [(ngModel)]="customer.deliveryTime"name="deliveryTime"(change)="updateTimeSurcharge()" *ngIf="customer.deliveryMethod === '標準送貨'">
+  <option value="9am-13pm">上午9點至1點</option>
+  <option value="13pm-20pm">下午1點至8點</option>
+  <option value="6am-7am">上午6點至7點（加 $50）</option>
+  <option value="7am-8am">上午7點至8點（加 $50）</option>
+  <option value="20pm-21pm">晚上8點至9點（加 $100）</option>
+  <option value="21pm-22pm">晚上9點至10點（加 $100）</option>
+  <option value="22pm-23pm">晚上10點至11點（加 $100）</option>
+  <option value="23pm-24pm">晚上11點至12點（加 $100）</option>
 </select>
 <p>額外時間附加費：{{ timeSurcharge | currency:'HKD' }}</p>
 
