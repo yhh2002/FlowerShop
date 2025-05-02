@@ -31,7 +31,7 @@ selectedCategoryFilter: string = '';
 selectedDeliveryFilter: string = '';
 
 
-  constructor(private orderService: OrderService,private productService: ProductService,private dialog: MatDialog) {}
+  constructor(private orderService: OrderService,private productService: ProductService,private dialog: MatDialog,private http: HttpClient) {}
 
   ngOnInit() {
     this.loadProducts();
@@ -149,6 +149,18 @@ selectedDeliveryFilter: string = '';
       }
     }
   }
+
+  updateOrderStatus(order: any) {
+    this.http.post('http://localhost/IT-Project/Project2/admin/updateOrderStatus.php', {
+      order_id: order.order_id,
+      status: order.status
+    }).subscribe(res => {
+      alert('狀態已更新 ✅');
+    }, err => {
+      alert('❌ 更新失敗');
+    });
+  }
+  
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];

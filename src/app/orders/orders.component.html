@@ -58,6 +58,10 @@
           <td>{{ order.total_amount }} HKD</td>
         </tr>
         <tr>
+          <td><strong>付款方式</strong></td>
+          <td>{{ order.payment_method}}</td>
+        </tr>
+        <tr>
           <td><strong>狀態</strong></td>
           <td>
             <span [ngClass]="{'green-text': order.status === '已完成', 'red-text': order.status !== '已完成'}">
