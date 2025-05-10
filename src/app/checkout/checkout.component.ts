@@ -146,11 +146,13 @@ export class CheckoutComponent implements AfterViewInit {
       .render('#paypal-button-container');
   }
 
-  submitAfterAlipay() {
+  submitAfterManualPayment() {
     if (confirm("你是否已經完成支付寶付款？")) {
       this.completeOrder1(); // ✅ 用同一個提交流程
     }
   }
+
+  
   
 
   // 📌 付款成功後執行
