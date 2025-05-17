@@ -43,6 +43,7 @@
       class="ui dropdown"
       [(ngModel)]="customer.paymentMethod"
       name="paymentMethod"
+      (ngModelChange)="onPaymentMethodChange($event)"
     >
       <option value="PayPal">PayPal</option>
       <option value="Alipay">支付寶</option>
@@ -203,11 +204,11 @@
 <!-- 如果選擇支付寶 -->
 <div *ngIf="customer.paymentMethod === 'PayMe'" class="ui yellow message">
   <h4>📸 請使用PayMe掃描以下 QR Code 完成付款：</h4>
-  <img
-    src="paymentMethod/payme-qr.jpg"
-    alt="PayMe QR Code"
-    style="max-width: 200px; margin: 10px auto"
-  />
+    <img
+      src="paymentMethod/payme-qr.jpg"
+      alt="PayMe QR Code"
+      style="max-width: 200px; margin: 10px auto"
+    />
   <p>
     付款完成後請截圖發送到 WhatsApp：<a
       href="https://wa.me/85266899885"
@@ -219,9 +220,8 @@
 
 <!-- FPS QR -->
 <div *ngIf="customer.paymentMethod === 'FPS'" class="ui blue message">
-  <h4><i class="qrcode icon"></i> 請使用 FPS 掃碼或輸入電話號碼</h4>
-  <img src="assets/images/fps-qr.png" style="max-width:200px;">
-  <p>或轉帳至電話號碼：📱 <strong>66899885</strong></p>
+  <h4><i class="qrcode icon"></i> 請使用 FPS 輸入電話號碼</h4>
+  <p>轉帳至電話號碼：📱 <strong>66899885</strong></p>
 </div>
 
 
@@ -237,9 +237,14 @@
 </div>
 
 <!-- 🔵 PayPal 按鈕 -->
-<div *ngIf="customer.paymentMethod === 'PayPal'" style="margin-top: 20px;">
-  <div id="paypal-button-container"></div>
+<!-- 🔁 改為 always 存在，只用 hidden 控制可見性 -->
+<!-- ✅ 保持 DOM 永遠存在，只用 [hidden] 控制顯示 -->
+<div id="paypal-button-container"
+     [hidden]="customer.paymentMethod !== 'PayPal'"
+     style="margin-top: 20px;">
 </div>
+
+
 
 <!-- ✅ 付款成功訊息 -->
 <div *ngIf="orderSuccess" class="ui positive message">

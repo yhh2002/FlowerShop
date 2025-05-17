@@ -39,7 +39,59 @@ export class CheckoutComponent implements AfterViewInit {
   ngOnInit() {
     this.loadUser();
     this.loadCart();
+    // this.renderPayPalButton(); // 預載入 script
   }
+
+  ngOnChanges() {
+    if (this.customer.paymentMethod === 'PayPal') {
+      this.renderPayPalButton();
+    }
+  }
+
+  renderPayPalButton(): void {
+    const container = document.getElementById('paypal-button-container');
+    if (!container) return;
+  
+    container.innerHTML = ''; // 清除舊 PayPal 按鈕
+  
+    paypal.Buttons({
+      createOrder: (data: any, actions: any) => {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: this.finalTotal.toFixed(2)
+            }
+          }]
+        });
+      },
+      onApprove: (data: any, actions: any) => {
+        return actions.order.capture().then((details: any) => {
+          this.completeOrder(details); // 提交訂單
+        });
+      }
+    }).render('#paypal-button-container');
+  }
+  
+  
+  
+
+  paypalRendered = false;
+
+  onPaymentMethodChange(method: string) {
+    this.customer.paymentMethod = method;
+  
+    if (method === 'PayPal' && !this.paypalRendered) {
+      setTimeout(() => {
+        this.renderPayPalButton();
+        this.paypalRendered = true;
+      }, 300);
+    }
+  }
+  
+  
+  
+  
+  
 
   ngAfterViewInit() {
     this.loadPayPal();

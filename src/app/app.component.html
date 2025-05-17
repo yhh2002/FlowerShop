@@ -1,7 +1,10 @@
-<app-top-menu ></app-top-menu>
+<div class="page-wrapper">
+  <app-top-menu></app-top-menu>
 
+  <!-- 網站內容 -->
+  <div class="content-wrapper">
+    <router-outlet></router-outlet>
+  </div>
 
-<!-- 必須要有這一行，Angular 才能切換頁面 -->
-<router-outlet></router-outlet>
-
-<app-footer></app-footer>
+  <app-footer></app-footer>
+</div>
