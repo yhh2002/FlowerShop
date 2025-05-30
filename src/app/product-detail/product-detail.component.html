@@ -12,7 +12,6 @@
 
       <p *ngIf="product"><strong>類別：</strong> {{ product.category }}</p>
       <p *ngIf="product"><strong>描述：</strong> {{ product.description }}</p>
-      <p *ngIf="product"><strong>庫存數量：</strong> {{ product.stock_quantity }}</p>
 
       <p><strong>選擇尺寸：</strong></p>
       <select class="ui dropdown" [(ngModel)]="selectedSize" (change)="onSizeChange()">
