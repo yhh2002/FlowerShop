@@ -17,6 +17,8 @@ export class CheckoutComponent implements AfterViewInit {
   totalPrice: number = 0;
   deliveryFee: number = 0;
   timeSurcharge: number = 0;
+  minDate: string = '';
+
   // deliveryTime: string = '';
   // deliveryDistrict: string = '';
 
@@ -39,6 +41,11 @@ export class CheckoutComponent implements AfterViewInit {
   ngOnInit() {
     this.loadUser();
     this.loadCart();
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    this.minDate = `${year}-${month}-${day}`;
     // this.renderPayPalButton(); // 預載入 script
   }
 
@@ -51,35 +58,36 @@ export class CheckoutComponent implements AfterViewInit {
   renderPayPalButton(): void {
     const container = document.getElementById('paypal-button-container');
     if (!container) return;
-  
+
     container.innerHTML = ''; // 清除舊 PayPal 按鈕
-  
-    paypal.Buttons({
-      createOrder: (data: any, actions: any) => {
-        return actions.order.create({
-          purchase_units: [{
-            amount: {
-              value: this.finalTotal.toFixed(2)
-            }
-          }]
-        });
-      },
-      onApprove: (data: any, actions: any) => {
-        return actions.order.capture().then((details: any) => {
-          this.completeOrder(details); // 提交訂單
-        });
-      }
-    }).render('#paypal-button-container');
+
+    paypal
+      .Buttons({
+        createOrder: (data: any, actions: any) => {
+          return actions.order.create({
+            purchase_units: [
+              {
+                amount: {
+                  value: this.finalTotal.toFixed(2),
+                },
+              },
+            ],
+          });
+        },
+        onApprove: (data: any, actions: any) => {
+          return actions.order.capture().then((details: any) => {
+            this.completeOrder(details); // 提交訂單
+          });
+        },
+      })
+      .render('#paypal-button-container');
   }
-  
-  
-  
 
   paypalRendered = false;
 
   onPaymentMethodChange(method: string) {
     this.customer.paymentMethod = method;
-  
+
     if (method === 'PayPal' && !this.paypalRendered) {
       setTimeout(() => {
         this.renderPayPalButton();
@@ -87,11 +95,6 @@ export class CheckoutComponent implements AfterViewInit {
       }, 300);
     }
   }
-  
-  
-  
-  
-  
 
   ngAfterViewInit() {
     this.loadPayPal();
@@ -105,8 +108,6 @@ export class CheckoutComponent implements AfterViewInit {
       0
     );
   }
-
-  
 
   // 📌 讀取當前登入的用戶
   loadUser() {
@@ -199,13 +200,10 @@ export class CheckoutComponent implements AfterViewInit {
   }
 
   submitAfterManualPayment() {
-    if (confirm("你是否已經完成支付寶付款？")) {
+    if (confirm('你是否已經完成支付寶付款？')) {
       this.completeOrder1(); // ✅ 用同一個提交流程
     }
   }
-
-  
-  
 
   // 📌 付款成功後執行
   completeOrder(paymentId: string) {
@@ -221,8 +219,6 @@ export class CheckoutComponent implements AfterViewInit {
       totalShipping: this.finalShippingCost,
       totalAmount: this.finalTotal,
     };
-
-    
 
     this.http
       .post('http://localhost/IT-Project/Project2/checkout.php', orderData)
@@ -259,7 +255,6 @@ export class CheckoutComponent implements AfterViewInit {
     //   alert("請先使用支付寶付款並聯絡我們確認，然後再提交訂單。");
     //   return;
     // }
-    
 
     this.http
       .post('http://localhost/IT-Project/Project2/checkout.php', orderData)

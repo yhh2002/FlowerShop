@@ -124,6 +124,7 @@
       [(ngModel)]="customer.deliveryDate"
       name="deliveryDate"
       required
+      [min]="minDate"
     />
   </div>
 
@@ -182,8 +183,6 @@
   訂單總金額（含運費）：<strong>{{ finalTotal | currency : "HKD" }}</strong>
 </h2>
 
-
-
 <!-- 如果選擇支付寶 -->
 <div *ngIf="customer.paymentMethod === 'Alipay'" class="ui yellow message">
   <h4>📸 請使用支付寶掃描以下 QR Code 完成付款：</h4>
@@ -204,11 +203,11 @@
 <!-- 如果選擇支付寶 -->
 <div *ngIf="customer.paymentMethod === 'PayMe'" class="ui yellow message">
   <h4>📸 請使用PayMe掃描以下 QR Code 完成付款：</h4>
-    <img
-      src="paymentMethod/payme-qr.jpg"
-      alt="PayMe QR Code"
-      style="max-width: 200px; margin: 10px auto"
-    />
+  <img
+    src="paymentMethod/payme-qr.jpg"
+    alt="PayMe QR Code"
+    style="max-width: 200px; margin: 10px auto"
+  />
   <p>
     付款完成後請截圖發送到 WhatsApp：<a
       href="https://wa.me/85266899885"
@@ -224,7 +223,6 @@
   <p>轉帳至電話號碼：📱 <strong>66899885</strong></p>
 </div>
 
-
 <!-- ✅ 提交按鈕：只在支付寶模式下顯示 -->
 <div *ngIf="customer.paymentMethod !== 'PayPal'" style="margin-top: 20px">
   <button
@@ -239,12 +237,11 @@
 <!-- 🔵 PayPal 按鈕 -->
 <!-- 🔁 改為 always 存在，只用 hidden 控制可見性 -->
 <!-- ✅ 保持 DOM 永遠存在，只用 [hidden] 控制顯示 -->
-<div id="paypal-button-container"
-     [hidden]="customer.paymentMethod !== 'PayPal'"
-     style="margin-top: 20px;">
-</div>
-
-
+<div
+  id="paypal-button-container"
+  [hidden]="customer.paymentMethod !== 'PayPal'"
+  style="margin-top: 20px"
+></div>
 
 <!-- ✅ 付款成功訊息 -->
 <div *ngIf="orderSuccess" class="ui positive message">
